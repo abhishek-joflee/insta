@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'firebase_options.dart';
 
@@ -10,6 +12,15 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  if (kIsWeb) {
+    await FacebookAuth.i.webAndDesktopInitialize(
+      appId: '868513784603790',
+      cookie: true,
+      xfbml: true,
+      version: 'v14.0',
+    );
+  }
   runApp(const MyApp());
 }
 
@@ -43,6 +54,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+    log(_counter.toString(), name: 'MyLogs');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,12 +87,5 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
     );
-  }
-
-  void _incrementCounter() {
-    log(_counter.toString(), name: 'MyLogs');
-    setState(() {
-      _counter++;
-    });
   }
 }
