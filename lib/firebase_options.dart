@@ -56,6 +56,7 @@ class DefaultFirebaseOptions {
     projectId: 'joflee-insta-clone',
     authDomain: 'joflee-insta-clone.firebaseapp.com',
     storageBucket: 'joflee-insta-clone.appspot.com',
+    measurementId: 'G-ZQRRR4SB18',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
