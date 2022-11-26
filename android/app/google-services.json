@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "581897274150",
+    "project_id": "joflee-insta-clone",
+    "storage_bucket": "joflee-insta-clone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581897274150:android:2ff7842b9261f6f62ab7e7",
+        "android_client_info": {
+          "package_name": "com.iabhishekmp.insta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581897274150-3qj77rbqv6babnjceutpun3um9gtmcb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdn-88Rlf-ntfPxcUgoLrtvDK5MGhHDO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581897274150-3qj77rbqv6babnjceutpun3um9gtmcb5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
