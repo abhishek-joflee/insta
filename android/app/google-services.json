@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "581897274150-p869voj4uantcmnu9q3trqde80tc5905.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iabhishekmp.insta",
+            "certificate_hash": "07d0bdfa5f32b9e3e6eceb934289b72772caea63"
+          }
+        },
+        {
           "client_id": "581897274150-3qj77rbqv6babnjceutpun3um9gtmcb5.apps.googleusercontent.com",
           "client_type": 3
         }

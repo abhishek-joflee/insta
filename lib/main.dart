@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:developer' as dev show log;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -6,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'firebase_options.dart';
+import 'state/auth/backend/authenticator.dart';
+
+extension Log on Object {
+  void log() => dev.log(toString());
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,15 +57,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-    log(_counter.toString(), name: 'MyLogs');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,20 +67,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            FloatingActionButton.extended(
+              onPressed: () async {
+                final result = await Authenticator().signInWithGoogle();
+                result.log();
+              },
+              label: const Text('Google Signin'),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline1,
+            FloatingActionButton.extended(
+              onPressed: () async {
+                final result = await Authenticator().signInWithFacebook();
+                result.log();
+              },
+              label: const Text('Facebook Signin'),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
