@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -19,9 +20,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blueGrey,
+        indicatorColor: Colors.blueGrey,
       ),
+      themeMode: ThemeMode.dark,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
