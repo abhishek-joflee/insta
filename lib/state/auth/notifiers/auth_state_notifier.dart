@@ -59,4 +59,18 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       userId: userId,
     );
   }
+
+  Future<void> loginWithGithub() async {
+    state = state.copyWith(isLoading: true);
+    final result = await _authenticator.signInWithGithub();
+    final userId = _authenticator.userId;
+    if (result == AuthResult.success && userId != null) {
+      await _saveUserInfo(userId);
+    }
+    state = AuthState(
+      result: result,
+      isLoading: false,
+      userId: userId,
+    );
+  }
 }

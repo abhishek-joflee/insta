@@ -103,6 +103,11 @@ class LoginView extends ConsumerWidget {
               onPressed: ref.read(authStateProvider.notifier).loginWithFacebook,
               label: const Text('Facebook Signin'),
             ),
+            const SizedBox(height: 10),
+            FloatingActionButton.extended(
+              onPressed: ref.read(authStateProvider.notifier).loginWithGithub,
+              label: const Text('Github Sign in'),
+            ),
           ],
         ),
       ),

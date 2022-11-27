@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../posts/typedefs/user_id.dart';
 import '../constants/constants.dart';
 import '../model/auth_result.dart';
+import 'github_login_helper.dart';
 
 @immutable
 class Authenticator {
@@ -24,6 +25,39 @@ class Authenticator {
     await FirebaseAuth.instance.signOut();
     await GoogleSignIn().signOut();
     await FacebookAuth.instance.logOut();
+  }
+
+  Future<AuthResult> signInWithGithub() async {
+    final token = await GithubLoginHelper.instance.login();
+    if (token == null) {
+      //? user has aborted the login process
+      return AuthResult.aborted;
+    }
+
+    final oAuthCred = GithubAuthProvider.credential(token);
+    try {
+      await FirebaseAuth.instance.signInWithCredential(oAuthCred);
+      return AuthResult.success;
+    } on FirebaseAuthException catch (e) {
+      final email = e.email;
+      final cred = e.credential;
+      if (e.code == AuthConstants.accountExistsWithDifferentCredentials &&
+          email != null &&
+          cred != null) {
+        final providers =
+            await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+
+        if (providers.contains(AuthConstants.googleCom)) {
+          await signInWithGoogle();
+
+          //? link the credentials
+          await FirebaseAuth.instance.currentUser?.linkWithCredential(cred);
+        }
+        return AuthResult.success;
+      }
+      log(':error', error: e);
+      return AuthResult.failure;
+    }
   }
 
   Future<AuthResult> signInWithFacebook() async {
