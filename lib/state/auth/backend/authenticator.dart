@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show immutable;
@@ -11,6 +12,8 @@ import '../model/auth_result.dart';
 
 @immutable
 class Authenticator {
+  const Authenticator();
+
   User? get _user => FirebaseAuth.instance.currentUser;
   UserId? get userId => _user?.uid;
   bool get isLoggedIn => userId != null;
@@ -53,6 +56,7 @@ class Authenticator {
         }
         return AuthResult.success;
       }
+      log(':error', error: e);
       return AuthResult.failure;
     }
   }
@@ -77,6 +81,7 @@ class Authenticator {
       await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
       return AuthResult.success;
     } catch (e) {
+      log(':error', error: e);
       return AuthResult.failure;
     }
   }

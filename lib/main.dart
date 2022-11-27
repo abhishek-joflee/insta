@@ -69,14 +69,14 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             FloatingActionButton.extended(
               onPressed: () async {
-                final result = await Authenticator().signInWithGoogle();
+                final result = await const Authenticator().signInWithGoogle();
                 result.log();
               },
               label: const Text('Google Signin'),
             ),
             FloatingActionButton.extended(
               onPressed: () async {
-                final result = await Authenticator().signInWithFacebook();
+                final result = await const Authenticator().signInWithFacebook();
                 result.log();
               },
               label: const Text('Facebook Signin'),
