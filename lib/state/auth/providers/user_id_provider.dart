@@ -5,4 +5,5 @@ import 'auth_state_provider.dart';
 
 final userIdProvider = Provider<UserId?>(
   (ref) => ref.watch(authStateProvider).userId,
+  name: 'userIdProvider',
 );

@@ -4,9 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'firebase_options.dart';
-import 'state/auth/backend/authenticator.dart';
+import 'provider_logger.dart';
+import 'state/auth/providers/auth_state_provider.dart';
+import 'state/auth/providers/is_logged_in_provider.dart';
 
 extension Log on Object {
   void log() => dev.log(toString());
@@ -26,7 +29,12 @@ Future<void> main() async {
       version: 'v14.0',
     );
   }
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(
+      observers: [ProviderLogger()],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -42,43 +50,57 @@ class MyApp extends StatelessWidget {
         indicatorColor: Colors.blueGrey,
       ),
       themeMode: ThemeMode.dark,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Consumer(
+        builder: (context, ref, child) {
+          final isLoggedIn = ref.watch(isLoggedInProvider);
+          return isLoggedIn ? const MainView() : const LoginView();
+        },
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class MainView extends StatelessWidget {
+  const MainView({super.key});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Insta'),
       ),
+      body: Consumer(
+        builder: (context, ref, child) {
+          return Center(
+            child: FloatingActionButton.extended(
+              onPressed: ref.read(authStateProvider.notifier).logOut,
+              label: const Text('Logout'),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class LoginView extends ConsumerWidget {
+  const LoginView({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Login')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FloatingActionButton.extended(
-              onPressed: () async {
-                final result = await const Authenticator().signInWithGoogle();
-                result.log();
-              },
+              onPressed: ref.read(authStateProvider.notifier).loginWithGoogle,
               label: const Text('Google Signin'),
             ),
+            const SizedBox(height: 10),
             FloatingActionButton.extended(
-              onPressed: () async {
-                final result = await const Authenticator().signInWithFacebook();
-                result.log();
-              },
+              onPressed: ref.read(authStateProvider.notifier).loginWithFacebook,
               label: const Text('Facebook Signin'),
             ),
           ],

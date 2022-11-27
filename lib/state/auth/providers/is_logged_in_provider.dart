@@ -8,4 +8,5 @@ final isLoggedInProvider = Provider<bool>(
     final authState = ref.watch(authStateProvider);
     return authState.result == AuthResult.success;
   },
+  name: 'isLoggedInProvider',
 );

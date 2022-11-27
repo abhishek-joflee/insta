@@ -5,4 +5,5 @@ import '../notifiers/auth_state_notifier.dart';
 
 final authStateProvider = StateNotifierProvider<AuthStateNotifier, AuthState>(
   (_) => AuthStateNotifier(),
+  name: 'authStateProvider',
 );
