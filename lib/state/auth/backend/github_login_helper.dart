@@ -58,10 +58,10 @@ class GithubLoginHelper {
       final accessToken = (jsonDecode(response.body)
           as Map<String, dynamic>)['access_token'] as String;
       _codeHandler.complete(accessToken);
+    } else {
+      // user has aborted the process or something wrong
+      _codeHandler.complete(null);
     }
-
-    // user has aborted the process or something wrong
-    _codeHandler.complete(null);
   }
 
   Future<String?> login() async {
