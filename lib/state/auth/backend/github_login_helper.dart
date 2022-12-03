@@ -11,11 +11,11 @@ const _clientSecret = '478efaf8ac0ba22fd3dcf5a036e46e45c615dbb3';
 
 class GithubLoginHelper {
   GithubLoginHelper._();
-
-  static GithubLoginHelper get instance => GithubLoginHelper._();
+  static final _i = GithubLoginHelper._();
+  static GithubLoginHelper get instance => _i;
 
   StreamSubscription<String?>? _linkListener;
-  final _codeHandler = Completer<String?>();
+  late Completer<String?> _codeCompleter;
 
   void _disposeDeepLinkListener() {
     _linkListener?.cancel();
@@ -26,7 +26,7 @@ class GithubLoginHelper {
     log('Starting listening for code...');
     _linkListener = linkStream.listen(
       _checkDeepLink,
-      onError: (e) => log(':error on link listener', error: e),
+      onError: (dynamic e) => log(':error on link listener', error: e),
       cancelOnError: true,
       onDone: () => log('done link listener'),
     );
@@ -57,14 +57,17 @@ class GithubLoginHelper {
       //? 4. return the access token
       final accessToken = (jsonDecode(response.body)
           as Map<String, dynamic>)['access_token'] as String;
-      _codeHandler.complete(accessToken);
+      _codeCompleter.complete(accessToken);
     } else {
       // user has aborted the process or something wrong
-      _codeHandler.complete(null);
+      _codeCompleter.complete(null);
     }
   }
 
   Future<String?> login() async {
+    //? assign completer
+    _codeCompleter = Completer();
+
     //? 1. launch the browser for github login
     const url =
         'https://github.com/login/oauth/authorize?client_id=$_clientId&scope=read:user%20user:email';
@@ -78,6 +81,6 @@ class GithubLoginHelper {
 
     //? 2. start the listener for `CODE` which will come with redirect url
     _initDeepLinkListener();
-    return _codeHandler.future;
+    return _codeCompleter.future;
   }
 }
