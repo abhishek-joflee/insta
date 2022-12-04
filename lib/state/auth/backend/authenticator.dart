@@ -49,11 +49,10 @@ class Authenticator {
 
         if (providers.contains(AuthConstants.googleCom)) {
           await signInWithGoogle();
-
           //? link the credentials
           await FirebaseAuth.instance.currentUser?.linkWithCredential(cred);
+          return AuthResult.success;
         }
-        return AuthResult.success;
       }
       log(':error', error: e);
       return AuthResult.failure;
