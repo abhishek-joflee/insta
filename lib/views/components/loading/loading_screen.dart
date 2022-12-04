@@ -101,6 +101,7 @@ class LoadingScreen {
     return _LoadingScreenController(
       close: () {
         textController.close();
+        overlay.remove();
         return true;
       },
       update: (text) {
