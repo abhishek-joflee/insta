@@ -106,7 +106,7 @@ class LoginView extends ConsumerWidget {
             const SizedBox(height: 10),
             FloatingActionButton.extended(
               onPressed: ref.read(authStateProvider.notifier).loginWithGithub,
-              label: const Text('Github Sign in'),
+              label: const Text('Github Signin'),
             ),
           ],
         ),

@@ -41,7 +41,7 @@ class Authenticator {
     } on FirebaseAuthException catch (e) {
       final email = e.email;
       final cred = e.credential;
-      if (e.code == AuthConstants.accountExistsWithDifferentCredentials &&
+      if (e.code == AuthConstants.accountExistsWithDifferentCredential &&
           email != null &&
           cred != null) {
         final providers =
@@ -75,7 +75,7 @@ class Authenticator {
     } on FirebaseAuthException catch (e) {
       final email = e.email;
       final cred = e.credential;
-      if (e.code == AuthConstants.accountExistsWithDifferentCredentials &&
+      if (e.code == AuthConstants.accountExistsWithDifferentCredential &&
           email != null &&
           cred != null) {
         final providers =
