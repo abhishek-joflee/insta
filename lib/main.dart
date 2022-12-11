@@ -12,6 +12,7 @@ import 'state/auth/providers/auth_state_provider.dart';
 import 'state/auth/providers/is_logged_in_provider.dart';
 import 'state/providers/is_loading_provider.dart';
 import 'views/components/loading/loading_screen.dart';
+import 'views/login/login_view.dart';
 
 extension Log on Object {
   void log() => dev.log(toString());
@@ -92,38 +93,6 @@ class MainView extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class LoginView extends ConsumerWidget {
-  const LoginView({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            FloatingActionButton.extended(
-              onPressed: ref.read(authStateProvider.notifier).loginWithGoogle,
-              label: const Text('Google Signin'),
-            ),
-            const SizedBox(height: 10),
-            FloatingActionButton.extended(
-              onPressed: ref.read(authStateProvider.notifier).loginWithFacebook,
-              label: const Text('Facebook Signin'),
-            ),
-            const SizedBox(height: 10),
-            FloatingActionButton.extended(
-              onPressed: ref.read(authStateProvider.notifier).loginWithGithub,
-              label: const Text('Github Signin'),
-            ),
-          ],
-        ),
       ),
     );
   }
